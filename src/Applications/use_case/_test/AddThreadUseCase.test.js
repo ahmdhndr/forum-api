@@ -9,7 +9,6 @@ describe('AddThreadUseCase', () => {
     const useCasePayload = {
       title: 'Sebuah Thread',
       body: 'Isi dari thread',
-      owner: 'user-123',
     };
     const expectedAddedTread = new AddedThread({
       id: 'thread-123',
@@ -21,6 +20,7 @@ describe('AddThreadUseCase', () => {
     const mockThreadRepository = new ThreadRepository();
 
     /** mocking needed function */
+    const fakeAuth = 'user-123';
     mockThreadRepository.addThread = jest.fn().mockImplementation(() => Promise.resolve(expectedAddedTread));
 
     /** creating use case instance */
@@ -29,7 +29,7 @@ describe('AddThreadUseCase', () => {
     });
 
     // Action
-    const addedThread = await addThreadUseCase.execute(useCasePayload);
+    const addedThread = await addThreadUseCase.execute(useCasePayload, fakeAuth);
 
     // Assert
     expect(addedThread).toStrictEqual(expectedAddedTread);
@@ -37,8 +37,8 @@ describe('AddThreadUseCase', () => {
       new NewThread({
         title: useCasePayload.title,
         body: useCasePayload.body,
-        owner: expectedAddedTread.owner,
       }),
+      expectedAddedTread.owner,
     );
   });
 });

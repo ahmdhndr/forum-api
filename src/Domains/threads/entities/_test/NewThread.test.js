@@ -30,7 +30,7 @@ describe('a NewThread entities', () => {
     };
 
     // Action
-    const { title, body, owner } = new NewThread(payload);
+    const { title, body } = new NewThread(payload);
 
     // Assert
     expect(title).toEqual(payload.title);
